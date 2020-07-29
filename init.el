@@ -1,6 +1,6 @@
 ;;; init.el --- Prelude's configuration entry point.
 ;;
-;; Copyright (c) 2011-2018 Bozhidar Batsov
+;; Copyright (c) 2011-2020 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: http://batsov.com/prelude
@@ -69,8 +69,8 @@ by Prelude.")
   "This directory houses packages that are not yet available in ELPA (or MELPA).")
 (defvar prelude-savefile-dir (expand-file-name "savefile" prelude-dir)
   "This folder stores all the automatically generated save/history-files.")
-(defvar prelude-modules-file (expand-file-name "prelude-modules.el" prelude-dir)
-  "This files contains a list of modules that will be loaded by Prelude.")
+(defvar prelude-modules-file (expand-file-name "prelude-modules.el" prelude-personal-dir)
+  "This file contains a list of modules that will be loaded by Prelude.")
 
 (unless (file-exists-p prelude-savefile-dir)
   (make-directory prelude-savefile-dir))
@@ -135,7 +135,9 @@ by Prelude.")
 ;; load the personal settings (this includes `custom-file')
 (when (file-exists-p prelude-personal-dir)
   (message "Loading personal configuration files in %s..." prelude-personal-dir)
-  (mapc 'load (directory-files prelude-personal-dir 't "^[^#\.].*el$")))
+  (mapc 'load (delete
+               prelude-modules-file
+               (directory-files prelude-personal-dir 't "^[^#\.].*\\.el$"))))
 
 (message "Prelude is ready to do thy bidding, Master %s!" current-user)
 

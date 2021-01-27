@@ -4,8 +4,6 @@
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/prelude
-;; Version: 1.0.0
-;; Keywords: convenience
 
 ;; This file is not part of GNU Emacs.
 
@@ -67,7 +65,8 @@
              prelude-flyspell)
     (flyspell-prog-mode))
   (when prelude-guru
-    (guru-mode +1))
+    (guru-mode +1)
+    (diminish 'guru-mode))
   (smartparens-mode +1)
   (prelude-enable-whitespace)
   (prelude-local-comment-auto-fill))

@@ -1,15 +1,12 @@
-;;; prelude-haskell.el --- Emacs Prelude: Nice config for Haskell programming.
+;;; prelude-fsharp.el --- Emacs Prelude: F# programming support.
 ;;
-;; Copyright © 2011-2021 Bozhidar Batsov
-;;
-;; Author: Bozhidar Batsov <bozhidar@batsov.com>
-;; URL: https://github.com/bbatsov/prelude
+;; Author: Andre Boechat <andre.boechat@tutanota.com>
 
 ;; This file is not part of GNU Emacs.
 
 ;;; Commentary:
 
-;; Nice config for Haskell programming.
+;; Basic setup for F# programming based on fsharp-mode and Eglot.
 
 ;;; License:
 
@@ -31,20 +28,21 @@
 ;;; Code:
 
 (require 'prelude-programming)
-(prelude-require-packages '(haskell-mode))
+(prelude-require-packages '(fsharp-mode eglot-fsharp))
 
-(with-eval-after-load 'haskell-mode
-  (defun prelude-haskell-mode-defaults ()
-    (subword-mode +1)
-    (eldoc-mode +1)
-    (haskell-indentation-mode +1)
-    (interactive-haskell-mode +1))
+(with-eval-after-load 'fsharp-mode
+  (defun prelude-fsharp-mode-defaults ()
+    ;; A reasonable default path to the F# compiler and interpreter on
+    ;; Unix-like systems.
+    ;; https://github.com/fsharp/emacs-fsharp-mode#compiler-and-repl-paths
+    (setq inferior-fsharp-program "dotnet fsi --readline-")
+    (require 'eglot-sharp))
 
-  (setq prelude-haskell-mode-hook 'prelude-haskell-mode-defaults)
+  (setq prelude-fsharp-mode-hook 'prelude-fsharp-mode-defaults)
 
-  (add-hook 'haskell-mode-hook (lambda ()
-                                 (run-hooks 'prelude-haskell-mode-hook))))
+  (add-hook 'fsharp-mode-hook (lambda ()
+                                (run-hooks 'prelude-sharp-mode-hook))))
 
-(provide 'prelude-haskell)
+(provide 'prelude-fsharp)
 
-;;; prelude-haskell.el ends here
+;;; prelude-fsharp.el ends here
